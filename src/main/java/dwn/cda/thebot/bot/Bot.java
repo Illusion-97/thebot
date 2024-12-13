@@ -38,7 +38,25 @@ public class Bot extends ListenerAdapter {
                 event.reply(FightService.getStat(asker)).queue();
                 break;
             case "idontwantpeace":
-                event.reply(FightService.requestFight(asker, Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
+                User target = Objects.requireNonNull(event.getOption("target")).getAsUser();
+                event.reply("You've successfully provoked " + target.getEffectiveName()).setEphemeral(true)
+                        .queue(v -> textChannel.sendMessage(
+                                "%s challenges %s in an epic fight !%nWho'll come out with glory ?"
+                                        .formatted(asker.getEffectiveName(), target.getName())
+                        ).queue(vv -> {
+                            User winner = FightService.requestFight(asker, target);
+                            textChannel.sendMessage(
+                                    "After some marvelous strikes %s dominate the opponent and increase their fame !"
+                                            .formatted(winner)
+                            ).queue(vvv -> {
+                                int amount = 500;
+                                winner.openPrivateChannel().queue(privateChannel ->
+                                        privateChannel.sendMessage(
+                                                "You've gained %d exp points !".formatted(amount)
+                                        ).queue());
+                                FightService.gainExp(winner, amount);
+                            });
+                        }));
                 break;
             default:
                 event.reply("I'm a teapot").setEphemeral(true).queue();

@@ -21,22 +21,15 @@ public class FightService {
                 .collect(Collectors.toMap(Member::getUser, member -> 0));
     }
 
-    public static String requestFight(@NonNull User asker,@NonNull User target) {
-        return "%s challenges %s in an epic fight !%nWho'll come out with glory ?%nAfter some marvelous strikes %s dominate the opponent and increase their fame ! HURRAY !"
-                .formatted(
-                        asker.getEffectiveName(),
-                        target.getEffectiveName(),
-                        getWinner(asker, target).getEffectiveName()
-                );
+    public static User requestFight(@NonNull User asker,@NonNull User target) {
+        return (random.nextBoolean() ? asker : target);
+    }
+
+    public static void gainExp(User user, int amount) {
+        membersExp.computeIfPresent(user, (u, exp) -> exp + amount);
     }
 
     public static String getStat(@NonNull User asker) {
         return "You've gained %d exp points until now.".formatted(membersExp.getOrDefault(asker,-1));
-    }
-
-    private static User getWinner(@NotNull User asker, @NotNull User target) {
-        User winner = random.nextBoolean() ? asker : target;
-        membersExp.computeIfPresent(winner, (user, integer) -> integer + 500);
-        return winner;
     }
 }
