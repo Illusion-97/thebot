@@ -18,7 +18,7 @@ public class Bot extends ListenerAdapter {
         guild.updateCommands().addCommands(
                 Commands.slash("hello", "Say Hello"),
                 Commands.slash("idontwantpeace", "Provoking someone in an epic duel.")
-                        .addOption(OptionType.USER,"target","Your mighty opponent.")
+                        .addOption(OptionType.USER,"target","Your mighty opponent.", true)
         ).queue();
     }
 
