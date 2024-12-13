@@ -18,6 +18,7 @@ public class Bot extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         guild = event.getGuild();
+        FightService.initExpTable(guild.getMembers());
         guild.updateCommands().addCommands(
                 Commands.slash("hello", "Say Hello"),
                 Commands.slash("idontwantpeace", "Provoking someone in an epic duel.")
