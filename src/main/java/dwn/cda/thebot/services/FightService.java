@@ -14,11 +14,11 @@ public class FightService {
 
     private static SecureRandom random = new SecureRandom();
 
-    private static Map<Member,Integer> membersExp;
+    private static Map<User,Integer> membersExp;
     public static void initExpTable(List<Member> members) {
         membersExp = members
                 .stream()
-                .collect(Collectors.toMap(member -> member, member -> 0));
+                .collect(Collectors.toMap(Member::getUser, member -> 0));
     }
 
     public static String requestFight(@NonNull User asker,@NonNull User target) {
@@ -31,6 +31,8 @@ public class FightService {
     }
 
     private static User getWinner(@NotNull User asker, @NotNull User target) {
-        return random.nextBoolean() ? asker : target;
+        User winner = random.nextBoolean() ? asker : target;
+        membersExp.computeIfPresent(winner, (user, integer) -> integer + 500);
+        return winner;
     }
 }
