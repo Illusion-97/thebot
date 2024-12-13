@@ -3,6 +3,7 @@ package dwn.cda.thebot.bot;
 import dwn.cda.thebot.services.FightService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -16,10 +17,12 @@ import java.util.Objects;
 @Component
 public class Bot extends ListenerAdapter {
     private Guild guild;
+    private TextChannel textChannel;
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         guild = event.getGuild();
         FightService.initExpTable(guild.getMembers());
+        textChannel = guild.getTextChannelsByName("hors-sujet", true).stream().findFirst().orElseThrow();
         guild.updateCommands().addCommands(
                 Commands.slash("iwantproblemsalways", "check your own fame."),
                 Commands.slash("idontwantpeace", "Provoking someone in an epic duel.")
