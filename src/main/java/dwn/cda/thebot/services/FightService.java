@@ -30,6 +30,10 @@ public class FightService {
                 );
     }
 
+    public static String getStat(@NonNull User asker) {
+        return "You've gained %d exp points until now.".formatted(membersExp.getOrDefault(asker,-1));
+    }
+
     private static User getWinner(@NotNull User asker, @NotNull User target) {
         User winner = random.nextBoolean() ? asker : target;
         membersExp.computeIfPresent(winner, (user, integer) -> integer + 500);

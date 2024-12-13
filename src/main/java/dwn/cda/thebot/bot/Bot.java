@@ -2,6 +2,7 @@ package dwn.cda.thebot.bot;
 
 import dwn.cda.thebot.services.FightService;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,12 +29,13 @@ public class Bot extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        User asker = event.getUser();
         switch (event.getName()) {
             case "iwantproblemsalways":
-                event.reply("You've gained %d exp points until now.").queue();
+                event.reply(FightService.getStat(asker)).queue();
                 break;
             case "idontwantpeace":
-                event.reply(FightService.requestFight(event.getUser(), Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
+                event.reply(FightService.requestFight(asker, Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
                 break;
             default:
                 event.reply("I'm a teapot").setEphemeral(true).queue();
