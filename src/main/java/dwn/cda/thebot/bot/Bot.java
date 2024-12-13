@@ -30,7 +30,7 @@ public class Bot extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         switch (event.getName()) {
             case "iwantproblemsalways":
-                event.reply("In Progress").queue();
+                event.reply("You've gained %d exp points until now.").queue();
                 break;
             case "idontwantpeace":
                 event.reply(FightService.requestFight(event.getUser(), Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
