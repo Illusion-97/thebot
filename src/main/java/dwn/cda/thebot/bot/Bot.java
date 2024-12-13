@@ -19,7 +19,7 @@ public class Bot extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         guild = event.getGuild();
         guild.updateCommands().addCommands(
-                Commands.slash("hello", "Say Hello"),
+                Commands.slash("iwantproblemsalways", "check your own fame."),
                 Commands.slash("idontwantpeace", "Provoking someone in an epic duel.")
                         .addOption(OptionType.USER,"target","Your mighty opponent.", true)
         ).queue();
@@ -28,8 +28,8 @@ public class Bot extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         switch (event.getName()) {
-            case "hello":
-                event.reply("Hello World").queue();
+            case "iwantproblemsalways":
+                event.reply("In Progress").queue();
                 break;
             case "idontwantpeace":
                 event.reply(FightService.requestFight(event.getUser(), Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
