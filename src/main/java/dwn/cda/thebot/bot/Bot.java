@@ -1,5 +1,6 @@
 package dwn.cda.thebot.bot;
 
+import dwn.cda.thebot.services.FightService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -8,6 +9,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class Bot extends ListenerAdapter {
@@ -29,7 +32,7 @@ public class Bot extends ListenerAdapter {
                 event.reply("Hello World").queue();
                 break;
             case "idontwantpeace":
-                event.reply("In Progress").queue();
+                event.reply(FightService.requestFight(event.getUser(), Objects.requireNonNull(event.getOption("target")).getAsUser())).queue();
                 break;
             default:
                 event.reply("I'm a teapot").setEphemeral(true).queue();
