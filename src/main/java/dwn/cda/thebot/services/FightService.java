@@ -2,6 +2,7 @@ package dwn.cda.thebot.services;
 
 import lombok.NonNull;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
 
@@ -14,7 +15,11 @@ public class FightService {
                 .formatted(
                         asker.getEffectiveName(),
                         target.getEffectiveName(),
-                        (random.nextBoolean() ? asker : target).getEffectiveName()
+                        getWinner(asker, target).getEffectiveName()
                 );
+    }
+
+    private static User getWinner(@NotNull User asker, @NotNull User target) {
+        return random.nextBoolean() ? asker : target;
     }
 }
