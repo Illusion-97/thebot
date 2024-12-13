@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,9 @@ public class Bot extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         guild = event.getGuild();
         guild.updateCommands().addCommands(
-                Commands.slash("hello", "Say Hello")
+                Commands.slash("hello", "Say Hello"),
+                Commands.slash("idontwantpeace", "Provoking someone in an epic duel.")
+                        .addOption(OptionType.USER,"target","Your mighty opponent.")
         ).queue();
     }
 
